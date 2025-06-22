@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Operation: Mystery of the Moving Hose - Mission HQ</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Special+Agent&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+        <!-- Chosen Palette: Top Secret Manila (Beige, Black, Red Accent) -->
+        <!-- Application Structure Plan: A single-page, top-down mission briefing. Sections include: Header, Mission Overview, Intel & Target (with embedded map), Rules of Engagement (as an interactive checklist), Anomaly Profile, and Victory Conditions. This linear structure is intuitive for a set of instructions, and the embedded map greatly enhances usability by keeping the user engaged within the app before they start their Street View search. -->
+        <!-- Visualization & Content Choices: The source report is instructional text. Goal: Inform/Guide -> Presentation: Thematic text, icons (Unicode), and an interactive embedded Google Map. Goal: Engage -> Interaction: Users can interact with the map directly, and a simple JS checklist makes following the rules interactive. Justification: This transforms a static document into an engaging mission hub. The interactive map is the key feature, providing immediate value. No charts needed. Library/Method: Vanilla JS for checklist, Google Maps embed via iframe. -->
+        <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+        <style>
+            body {
+                font-family: 'Roboto Mono', monospace;
+                background-color: #f5f5dc; /* Manila Beige */
+            }
+            .agent-title {
+                font-family: 'Special Agent', sans-serif;
+                text-transform: uppercase;
+            }
+            .stamp {
+                border: 3px solid #dc2626; /* Red-600 */
+                color: #dc2626;
+                font-size: 1.5rem;
+                font-weight: bold;
+                padding: 0.25rem 0.5rem;
+                transform: rotate(-10deg);
+                display: inline-block;
+                margin-bottom: 1rem;
+                font-family: 'Roboto Mono', monospace;
+            }
+            .section-title {
+                border-bottom: 2px solid #1f2937; /* Gray-800 */
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            .checklist-item {
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+            }
+            .checklist-item.completed {
+                text-decoration: line-through;
+                color: #6b7280; /* Gray-500 */
+            }
+            .checklist-item.completed .checkbox {
+                background-color: #dc2626;
+                border-color: #dc2626;
+            }
+            .checklist-item.completed .checkbox::after {
+                content: '✓';
+                color: white;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                line-height: 1.25rem;
+            }
+            .checkbox {
+                width: 1.25rem;
+                height: 1.25rem;
+                border: 2px solid #1f2937;
+                margin-right: 0.75rem;
+                flex-shrink: 0;
+            }
+            .map-container {
+                position: relative;
+                width: 100%;
+                height: 0;
+                padding-bottom: 75%; /* 4:3 Aspect Ratio */
+            }
+            .map-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body class="bg-[#f5f5dc] text-gray-800 antialiased">
+
+        <main class="container mx-auto max-w-4xl p-4 sm:p-8">
+
+            <!-- Header Section -->
+            <header class="text-center mb-12 bg-white/50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h1 class="agent-title text-4xl sm:text-6xl text-gray-800 tracking-wider">G.P.P.P.</h1>
+                <p class="text-lg text-gray-600">Global Pixel Purity Protocol</p>
+                <div class="mt-8">
+                    <div class="stamp">TOP SECRET</div>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold tracking-tight">Operation: Mystery of the Moving Hose</h2>
+            </header>
+
+            <!-- Mission Overview -->
+            <section class="mb-12 bg-white/50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h3 class="text-2xl font-bold section-title">Your Mission Brief!</h3>
+                <p class="text-base leading-relaxed">Hey, super spies and curious kids! Get ready for an awesome digital adventure. We're on a special mission to find something weird on the internet and help keep our digital world super accurate. Your job: find a strange secret, and tell us what's going on! Good luck, agents!</p>
+            </section>
+
+            <!-- Intel & Target -->
+            <section class="mb-12 bg-white/50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h3 class="text-2xl font-bold section-title">🎯 Your Target & Location</h3>
+                <p class="mb-4">Your main target is a regular object doing something super weird: a **Garden Hose**. You'll find this hose at our secret mission spot.</p>
+                <div class="mb-4">
+                    <p class="font-bold text-lg">LOCATION:</p>
+                    <p>Old Rabun County Courthouse, 87 Livery Street, Clayton, Georgia, USA</p>
+                </div>
+                <p class="mb-4">To start your search, use the map below! You can zoom in, move around, and even jump into Street View right here. This is your portal to the mission zone!</p>
+                <div class="map-container rounded-lg overflow-hidden border-2 border-gray-300 shadow-inner">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.899213190842!2d-83.40409202450302!3d34.87857117290632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8858204d8d1e3d37%3A0x22c2a05e2e8e9e62!2sOld%20Rabun%20County%20Courthouse!5e0!3m2!1sen!2sus!4v1687381534958!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </section>
+
+            <!-- Rules of Engagement -->
+            <section class="mb-12 bg-white/50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h3 class="text-2xl font-bold section-title">🔍 Spy Handbook: How to Play!</h3>
+                <p class="mb-4">Follow these steps to find the secret! Click on each one when you understand it, and it will be checked off!</p>
+                <div id="checklist" class="space-y-4">
+                    <div class="checklist-item flex items-center p-3 bg-white rounded-md border border-gray-200 hover:bg-gray-50">
+                        <div class="checkbox"></div>
+                        <div>
+                            <h4 class="font-bold">1. Go Digital!</h4>
+                            <p class="text-sm">Use the map above. Drag the yellow Street View person onto the roads around the Courthouse to start exploring.</p>
+                        </div>
+                    </div>
+                    <div class="checklist-item flex items-center p-3 bg-white rounded-md border border-gray-200 hover:bg-gray-50">
+                        <div class="checkbox"></div>
+                        <div>
+                            <h4 class="font-bold">2. Look Closely!</h4>
+                            <p class="text-sm">Move slowly around the whole area. Check near doors, sidewalks, and garden spots. The hose might be hiding!</p>
+                        </div>
+                    </div>
+                    <div class="checklist-item flex items-center p-3 bg-white rounded-md border border-gray-200 hover:bg-gray-50">
+                        <div class="checkbox"></div>
+                        <div>
+                            <h4 class="font-bold">3. Use Your Time Machine!</h4>
+                            <p class="text-sm">In the top-left of Street View, click the date/year box. You can see pictures from different years. This is super important!</p>
+                        </div>
+                    </div>
+                    <div class="checklist-item flex items-center p-3 bg-white rounded-md border border-gray-200 hover:bg-gray-50">
+                        <div class="checkbox"></div>
+                        <div>
+                            <h4 class="font-bold">4. Find the Weird Part!</h4>
+                            <p class="text-sm">Spot the hose and see what's odd about it over time. Check the "Mystery Clues" below for ideas!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Anomaly Profile -->
+            <section class="mb-12 bg-white/50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h3 class="text-2xl font-bold section-title">📂 Mystery Clues!</h3>
+                <p class="mb-4">The garden hose might be acting strange in one or more ways when you look at different pictures over time:</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>It Moves Around:</strong> It might be neatly coiled in one year, but all messy in another.</li>
+                    <li><strong>It's in a Funny Spot:</strong> It might be somewhere really weird or out of place.</li>
+                    <li><strong>It Glows:</strong> It could look like it's glowing or shining in a strange way.</li>
+                </ul>
+            </section>
+
+            <!-- Victory Conditions & Mission Debrief -->
+            <section class="bg-white/50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h3 class="text-2xl font-bold section-title">🏆 Mission Success! (And How to Tell Us!)</h3>
+                <p class="mb-4">You win when you're the first super spy to do this:</p>
+                <ul class="list-disc list-inside space-y-2 mb-6">
+                    <li><strong>Find the weird garden hose!</strong></li>
+                    <li>**Tell us clearly** what's strange about it (like, "In 2022 it's neat, but in 2019 it's all over the place!").</li>
+                    <li>**Extra points!** What's your best guess? Is it a computer trick, or does this hose have a secret life?</li>
+                </ul>
+
+                <h4 class="text-xl font-bold mb-4">Send Us Your Report!</h4>
+                <form id="missionReportForm" class="space-y-4">
+                    <div>
+                        <label for="screenshotUrl" class="block text-sm font-medium text-gray-700 mb-1">Screenshot Link (Where we can see it!):</label>
+                        <input type="url" id="screenshotUrl" name="screenshotUrl" placeholder="e.g., https://goo.gl/maps/awesomefind" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm bg-white/70">
+                    </div>
+                    <div>
+                        <label for="findings" class="block text-sm font-medium text-gray-700 mb-1">What did you find? (Describe the weird hose thing!):</label>
+                        <textarea id="findings" name="findings" rows="6" placeholder="The hose in the 2019 picture looks like it's glowing a little, but not in the other years..." class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm bg-white/70"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 font-bold tracking-wide transition duration-150 ease-in-out">
+                        Send Mission Report! 🚀
+                    </button>
+                    <p id="submissionMessage" class="mt-4 text-center text-sm text-gray-600 hidden"></p>
+                </form>
+            </section>
+            
+        </main>
+
+        <footer class="text-center p-4 mt-8">
+            <p class="text-xs text-gray-500">&copy; 2025 Global Pixel Purity Protocol. For authorized eyes only.</p>
+        </footer>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const checklistItems = document.querySelectorAll('.checklist-item');
+                checklistItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        item.classList.toggle('completed');
+                    });
+                });
+
+                const missionReportForm = document.getElementById('missionReportForm');
+                const submissionMessage = document.getElementById('submissionMessage');
+
+                missionReportForm.addEventListener('submit', (event) => {
+                    event.preventDefault(); // Stop the form from really sending
+
+                    const screenshotUrl = encodeURIComponent(document.getElementById('screenshotUrl').value);
+                    const findings = encodeURIComponent(document.getElementById('findings').value);
+                    const recipientEmail = 'Clairemaeb1@gmail.com';
+                    const subject = encodeURIComponent('G.P.P.P. Mission Report: Moving Hose Mystery');
+                    const body = encodeURIComponent(`Agent Findings Report:\n\nScreenshot Link: ${decodeURIComponent(screenshotUrl)}\n\nWhat I Found: ${decodeURIComponent(findings)}\n\n--- End of Report ---`);
+
+                    if (screenshotUrl.trim() === '' || findings.trim() === '') {
+                        submissionMessage.textContent = '🚨 Report Missing Stuff: Please add your screenshot link AND what you found! 🚨';
+                        submissionMessage.classList.remove('hidden', 'text-green-600');
+                        submissionMessage.classList.add('text-red-600');
+                    } else {
+                        const mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+                        window.open(mailtoLink, '_blank'); // Opens your email app in a new tab
+
+                        submissionMessage.textContent = '🚀 Mission Report Ready! Just hit "Send" in your email app. Great job, Agent!';
+                        submissionMessage.classList.remove('hidden', 'text-red-600');
+                        submissionMessage.classList.add('text-green-600');
+                        missionReportForm.reset(); // Clears the boxes after you send it
+                    }
+                });
+            });
+        </script>
+
+    </body>
+    </html>
